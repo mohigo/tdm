@@ -1,0 +1,56 @@
+{
+	"file_info" : {
+		"config" : [{
+			"generate_from_sample" : "N",
+			"gen_based_on_row_def" : "Y",
+			"delimiter" : ",",
+			"output_file_name" : "output.csv",
+			"sample_file_name" : "PH_RSCH_TRAN_ASGNMT_DIM.csv",
+			"max_rows_per_file" : "1000000",
+			"auto_num_inc_field_pos" : 0
+		}]
+	},
+	"row" : {
+		"columns" : [{
+			"field_position" : 0, 
+			"field_name" : "STORE_NUM",
+			"field_type" : "INT",
+			"values" : [{"MIN":1,"MAX":100}]	
+		},{
+			"field_position" : 1, 
+			"field_name" : "REG_NUM",
+			"field_type" : "INT",
+			"values" : [{"MIN":1,"MAX":999}]		
+		},{
+			"field_position" : 3,
+			"field_name" : "BIZ_DATE",
+			"field_type" : "DATE",
+			"values" : [{"MIN":"2015-01-01","MAX":"2015-02-25"}]	
+		},{
+			"field_position" : 2, 
+			"field_name" : "TRAN_NUM",
+			"field_type" : "INT",
+			"values" : [{"MIN":1,"MAX":999}]	
+		},{
+			"field_position" : 4, 
+			"field_name" : "LOAD_TIME",
+			"field_type" : "TIMESTAMP",
+			"values" : [{"MIN":"2015-01-01 01:10:00","MAX":"2015-02-25 23:59:59"}]	
+		},{
+			"field_position" : 5, 
+			"field_name" : "REG_TEXT",
+			"field_type" : "STRING",
+			"values" : [{"MIN":1,"MAX":20}]	
+		},{
+			"field_position" : 6, 
+			"field_name" : "TRAN_TIME",
+			"field_type" : "TIMESTAMP",
+			"values" : [{"MIN":"2015-02-01 10:00:00","MAX":"2015-02-25 23:59:59"}]	
+		},{
+			"field_position" : 7, 
+			"field_name" : "SOME_FLOAT",
+			"field_type" : "DECIMAL",
+			"values" : [{"MIN":1,"MAX":100}]	
+		}]	
+	}
+}
