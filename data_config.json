@@ -6,7 +6,7 @@
 			"delimiter" : ",",
 			"output_file_name" : "output.csv",
 			"sample_file_name" : "PH_RSCH_TRAN_ASGNMT_DIM.csv",
-			"max_rows_per_file" : "1000000",
+			"max_rows_per_file" : "10",
 			"auto_num_inc_field_pos" : 0
 		}]
 	},
@@ -40,7 +40,7 @@
 			"field_position" : 5, 
 			"field_name" : "REG_TEXT",
 			"field_type" : "STRING",
-			"values" : [{"MIN":1,"MAX":20}]	
+			"values" : ["SALE","EXCH","RETN","VOID"]
 		},{
 			"field_position" : 6, 
 			"field_name" : "TRAN_TIME",

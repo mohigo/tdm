@@ -66,8 +66,12 @@ class Column(object):
 		self.values = values
 
 	def __repr__(self):
-		return '\n {}: {} | {} | {} | {} | {}'.format(self.__class__.__name__, self.field_name
-			,self.field_type,self.field_position,self.values['MIN'], self.values['MAX'])
+		if (isinstance(self.values, dict)):
+			return '\n {}: {} | {} | {} | {} | {}'.format(self.__class__.__name__, self.field_name
+				,self.field_type,self.field_position,self.values['MIN'], self.values['MAX'])
+		else:
+			return '\n {}: {} | {} | {} | {}'.format(self.__class__.__name__, self.field_name
+				,self.field_type,self.field_position,self.values)
 
 	def __cmp__(self, other):
 		if hasattr(other, 'field_position'):
@@ -97,12 +101,20 @@ if gen_based_on_row_def is not None:
 	for columns in data['row']['columns']:
 	 	
 	 	for val in columns['values']:
-	 		vals = {} # this is because the dict object is mutable
-	 		vals['MIN'] = val['MIN']
-	 		vals['MAX'] = val['MAX']
+			if (isinstance(val, dict)):
+	 	 		vals = {} # this is because the dict object is mutable
+		 		vals['MIN'] = val['MIN']
+		 		vals['MAX'] = val['MAX']
+		 	else:
+			 	vals = None
 
-		col = Column(columns['field_name'], columns['field_type']
-				, columns['field_position'], vals)
+		if (vals is None):
+			col = Column(columns['field_name'], columns['field_type']
+					, columns['field_position'], columns['values'])
+		else:	
+			col = Column(columns['field_name'], columns['field_type']
+					, columns['field_position'], vals)
+
 		row_def.append(col)
 
 data_config.close()
@@ -116,44 +128,50 @@ else:
 	print 'no output file name provided.. aborting...'
 	raise SystemExit
 
-row_def = sorted(row_def)
-
-maxcol = len(row_def) - 1
-mincol = 0
-
-rows = []
-
 def generateRows(row_def, file_name, process_num):
+	row_def = sorted(row_def)
+	maxcol = len(row_def) - 1
+	mincol = 0
 	row=""
 	outfile = open(file_name + str(process_num) + '.csv', "w")
+
 	for i in range (0, max_rows_per_file):
 		outfile.write(row + '\n')
+
 		for col_def in row_def:
+
 			if col_def.field_position == mincol:
 				row = ""
-			if col_def.field_type == 'INT':
-				row=row+str(random.randrange(col_def.values['MIN'],col_def.values['MAX']))
-			elif col_def.field_type == 'DECIMAL':
-				row=row+str(decimal.Decimal('%d.%d' % (random.randint(col_def.values['MIN'], col_def.values['MAX'])
-					,random.randint(col_def.values['MIN'],col_def.values['MAX']))))
-			elif col_def.field_type == 'STRING':
-				row = row + ''.join(random.choice(
-                    string.ascii_lowercase
-                    + string.ascii_uppercase
-                    + string.digits)
-                for i in range(col_def.values['MAX']))
-			elif col_def.field_type == 'DATE':
-				random_date = generate_random_dates(
-					datetime.datetime.strptime(col_def.values['MIN'], "%Y-%m-%d").date()
-					, datetime.datetime.strptime(col_def.values['MAX'], "%Y-%m-%d").date())
-				row = row + random_date.strftime("%Y-%m-%d")
-			elif col_def.field_type == 'TIMESTAMP':
-				random_ts = generate_random_timestamp(
-					datetime.datetime.strptime(col_def.values['MIN'], "%Y-%m-%d %H:%M:%S")
-					, datetime.datetime.strptime(col_def.values['MAX'], "%Y-%m-%d %H:%M:%S"))
-				row = row + random_ts.strftime("%Y-%m-%d %H:%M:%S")
+
+			if (isinstance(col_def.values, dict)):
+				min_val = col_def.values['MIN']
+				max_val = col_def.values['MAX']
+				if col_def.field_type == 'INT':
+					row=row+str(random.randrange(min_val, max_val))
+				elif col_def.field_type == 'DECIMAL':
+					row=row+str(decimal.Decimal('%d.%d' % (random.randint(min_val, max_val)
+						,random.randint(min_val, max_val))))
+				elif col_def.field_type == 'STRING':
+					row = row + ''.join(random.choice(
+	                    string.ascii_lowercase
+	                    + string.ascii_uppercase
+	                    + string.digits)
+	                for i in range(max_val))
+				elif col_def.field_type == 'DATE':
+					random_date = generate_random_dates(
+						datetime.datetime.strptime(min_val, "%Y-%m-%d").date()
+						, datetime.datetime.strptime(max_val, "%Y-%m-%d").date())
+					row = row + random_date.strftime("%Y-%m-%d")
+				elif col_def.field_type == 'TIMESTAMP':
+					random_ts = generate_random_timestamp(
+						datetime.datetime.strptime(min_val, "%Y-%m-%d %H:%M:%S")
+						, datetime.datetime.strptime(max_val, "%Y-%m-%d %H:%M:%S"))
+					row = row + random_ts.strftime("%Y-%m-%d %H:%M:%S")
+				else:
+					pass
 			else:
-				pass
+				row = row + random.choice(col_def.values)
+
 			if col_def.field_position < maxcol:
 				row = row + delimiter
 			#print i
