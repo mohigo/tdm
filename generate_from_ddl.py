@@ -56,11 +56,13 @@ for row in rows:
 	elif type_check == 'BV':
 		col_type='VARBYTE'
 	elif type_check == 'CF':
-		col_type='CHAR'
+		col_type='STRING'
+		col_min='0'
+		col_max='1'		
 	elif type_check == 'CO':
 		col_type='CLOB'
 	elif type_check == 'CV':
-		col_type='VARCHAR'
+		col_type='STRING'
 	elif type_check == 'D':
 		col_type='DECIMAL'
 	elif type_check == 'DA':
@@ -91,14 +93,14 @@ for row in rows:
 	if col_max == '':
 		col_max=row[2].strip()
 
-	c={'field_position':field_position, 'field_name':col_name.strip(), 'field_type':col_type, 'values':{'MIN':col_min,'MAX':col_max}}
+	c={'field_position':field_position, 'field_name':col_name.strip(), 'field_type':col_type, 'values':[{'MIN':col_min,'MAX':col_max}]}
 	cols.append(c)
 	i+=1
 
 n={'columns' : cols}
 outfile = open(output_file_name, "w")
 
-outfile.write(json.dumps(n, indent=4, sort_keys=True))
+outfile.write(json.dumps(n, indent=4, sort_keys=True, ensure_ascii=True))
 
 outfile.close()
 conn.close()
