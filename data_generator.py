@@ -147,11 +147,16 @@ def generateRows(row_def, file_name, process_num):
 				min_val = col_def.values['MIN']
 				max_val = col_def.values['MAX']
 				if col_def.field_type == 'INT':
+					min_val=int(min_val)
+					max_val=int(max_val)
 					row=row+str(random.randrange(min_val, max_val))
 				elif col_def.field_type == 'DECIMAL':
+					min_val=int(min_val)
+					max_val=int(max_val)
 					row=row+str(decimal.Decimal('%d.%d' % (random.randint(min_val, max_val)
 						,random.randint(min_val, max_val))))
 				elif col_def.field_type == 'STRING':
+					max_val=int(max_val)
 					row = row + ''.join(random.choice(
 	                    string.ascii_lowercase
 	                    + string.ascii_uppercase
