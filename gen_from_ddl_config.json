@@ -1,0 +1,10 @@
+{
+	"extract_ddl" : {
+		"config" : [{
+			"dsn" : "YOUR_DSN",
+			"database_name" : "DB_NAME",
+			"table_name" : "TABLE_NAME",
+			"output_file_name" : "output.json"
+		}]
+	}
+}
