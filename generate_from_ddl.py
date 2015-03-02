@@ -3,6 +3,8 @@ import sys
 import re
 import getpass
 import json
+import datetime
+
 
 database_name=''
 table_name=''
@@ -45,7 +47,10 @@ for row in rows:
 	col_type='UNKNOWN'
 	col_min=''
 	col_max=''
-	type_check=row[1].strip()
+	default_date = datetime.datetime.today()
+	type_check = row[1]
+	if type_check is not None:
+		type_check = type_check.strip()
 
 	if type_check == 'AT':
 		col_type='TIMESTAMP'
@@ -57,8 +62,9 @@ for row in rows:
 		col_type='VARBYTE'
 	elif type_check == 'CF':
 		col_type='STRING'
-		col_min='0'
-		col_max='1'		
+		if row[2] is not None:
+			col_min='0'
+			col_max='1'		
 	elif type_check == 'CO':
 		col_type='CLOB'
 	elif type_check == 'CV':
@@ -67,16 +73,20 @@ for row in rows:
 		col_type='DECIMAL'
 	elif type_check == 'DA':
 		col_type='DATE'
+		col_min=default_date.strftime("%Y-%m-%d")
+		col_max=default_date.strftime("%Y-%m-%d")
 	elif type_check == 'F':
 		col_type='DECIMAL'
 	elif type_check == 'I1':
 		col_type='INT'
-		col_min='-128'
-		col_max='127'
+		if row[2] is not None:
+			col_min='-128'
+			col_max='127'
 	elif type_check == 'I2':
 		col_type='INT'
-		col_min='-32768'
-		col_max='32767'
+		if row[2] is not None:
+			col_min='-32768'
+			col_max='32767'
 	elif type_check == 'I8':
 		col_type='INT'
 	elif type_check == 'I':
@@ -92,6 +102,10 @@ for row in rows:
 
 	if col_max == '':
 		col_max=row[2].strip()
+
+	if col_type == 'TIMESTAMP':
+		col_min=default_date.strftime("%Y-%m-%d %H:%M:%S")
+		col_max=default_date.strftime("%Y-%m-%d %H:%M:%S")
 
 	c={'field_position':field_position, 'field_name':col_name.strip(), 'field_type':col_type, 'values':[{'MIN':col_min,'MAX':col_max}]}
 	cols.append(c)
