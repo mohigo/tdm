@@ -1,9 +1,9 @@
 ## tdm
-****
+
 Test data generator using python. 
 
 ## How to generate data from a config? _(datagenerator.py)_
-****
+
 TDM can generate test data based on a configuration file i.e. data_config.json.
 - Allows for any number of columns
 - Allows for various data types
@@ -12,7 +12,7 @@ TDM can generate test data based on a configuration file i.e. data_config.json.
 
 	
 ## Discover database table definition to generate test data? _(generatefromddl.py)_
-****
+
 TDM can connect to a database and discover the table description then use that to generate test data. Configure your database connection details in gen_from_ddl_config.json. Once the database table description is read from the database, this program will generate an output.json which can then be modified to run with #1 above. 
 
 This uses pyodbc to connect to the database.
