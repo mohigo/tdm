@@ -1,6 +1,6 @@
 ## tdm
 
-Test data generator using python. 
+Test data generator using python. Use this to generate test data for testing. Can be used to generate mock data for functional testing or can generate data at scale for performance testing. 
 
 ## How to generate data from a config? _(data_generator.py)_
 
