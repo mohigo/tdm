@@ -13,6 +13,6 @@ TDM can generate test data based on a configuration file i.e. _data_config.json_
 	
 ## Discover database table definition to generate test data? _(generate_from_ddl.py)_
 
-TDM can connect to a database and discover the table description then use that to generate test data. Configure your database connection details in _gen_from_ddl_config.json_. Once the database table description is read from the database, this program will generate an output.json which can then be modified to run with #1 above. 
+TDM can connect to a database and discover the table description then use that to generate test data. Configure your database connection details in _gen_from_ddl_config.json_. Once the database table description is read from the database, this program will generate an _output.json_ which can then be modified to run with #1 above. 
 
 This uses pyodbc to connect to the database.
